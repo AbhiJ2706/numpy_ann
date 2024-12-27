@@ -6,7 +6,7 @@ This document provides an explanation of the matrix calculations for batch gradi
 **Definitions**
 
    **Inputs and Layers:**
-   - Batch size: \(n\)
+   - Batch size: $n$
    - Input features: \(d_0\) (number of features in the input layer)
    - \(L\): Total number of layers (including the output layer)
    - \(d_l\): Number of neurons in layer \(l\), for \(l = 1, 2, ..., L\).
