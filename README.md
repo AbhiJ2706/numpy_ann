@@ -7,20 +7,20 @@ This document provides an explanation of the matrix calculations for batch gradi
 
    **Inputs and Layers:**
    - Batch size: $n$
-   - Input features: \(d_0\) (number of features in the input layer)
-   - \(L\): Total number of layers (including the output layer)
-   - \(d_l\): Number of neurons in layer \(l\), for \(l = 1, 2, ..., L\).
+   - Input features: $d_0$ (number of features in the input layer)
+   - $L$: Total number of layers (including the output layer)
+   - $d_l$: Number of neurons in layer $l$, for $l = 1, 2, ..., L$.
 
    **Weights and Biases:**
-   - \(\tilde{W}_l\): Weight matrix for layer \(l\), including biases.
+   - $\tilde{W}_l$: Weight matrix for layer $l$, including biases.
 
    **Activations and Pre-activations:**
-   - \(Z_l\): Pre-activation (weighted sum) at layer \(l\).
-   - \(H_l\): Activation at layer \(l\) (a#er applying activation function).
-   - \(\tilde{H}_l\): Activation at layer \(l\), augmented with bias column of ones.
+   - $Z_l$: Pre-activation (weighted sum) at layer $l$.
+   - $H_l$: Activation at layer $l$ (a#er applying activation function).
+   - $\tilde{H}_l$: Activation at layer $l$, augmented with bias column of ones.
 
    **Loss Function:**
-   - \(\mathcal{L}\): Loss function applied to the final layer \(L\) and ground truth \(Y\).
+   - $\mathcal{L}$: Loss function applied to the final layer $L$ and ground truth $Y$.
 
 **Forward Propagation**
 
@@ -31,28 +31,28 @@ This document provides an explanation of the matrix calculations for batch gradi
      \]
 
    **Layer-wise Computation:**
-   For each layer \(l = 1, 2, ..., L\):
+   For each layer $l = 1, 2, ..., L$:
    1. Compute pre-activation:
       \[
       Z_l = \tilde{H}_{l-1} \tilde{W}_l, \quad Z_l \in \mathbb{R}^{n \times d_l}.
       \]
-   2. Apply activation function \(f_l\):
+   2. Apply activation function $f_l$:
       \[
       H_l = f_l(Z_l), \quad H_l \in \mathbb{R}^{n \times d_l}.
       \]
-   3. Augment \(H_l\) with a bias column for subsequent layers (if \(l < L\)):
+   3. Augment $H_l$ with a bias column for subsequent layers (if $l < L$):
       \[
       \tilde{H}_l = [H_l, 1], \quad \tilde{H}_l \in \mathbb{R}^{n \times (d_l + 1)}.
       \]
 
-   For the final layer \(L\), the output is:
+   For the final layer $L$, the output is:
    \[
    H_L = f_L(Z_L), \quad H_L \in \mathbb{R}^{n \times d_L}.
    \]
 
 **Compute Loss**
 
-   The loss function \(\mathcal{L}\) depends on the task and the outputs \(H_L\):
+   The loss function $\mathcal{L}$ depends on the task and the outputs $H_L$:
    - **Classification:** Cross-entropy loss, e.g., binary or categorical.
    - **Regression:** Mean squared error or other loss functions.
 
@@ -60,7 +60,7 @@ This document provides an explanation of the matrix calculations for batch gradi
    \[
    \mathcal{L} = \frac{1}{n} \sum_{i=1}^n \ell(H_L[i], Y[i]),
    \]
-   where \(\ell\) is the loss for a single sample.
+   where $\ell$ is the loss for a single sample.
    
 **Backward Propagation**
 
@@ -75,16 +75,16 @@ This document provides an explanation of the matrix calculations for batch gradi
       \]
 
    **Layer-wise Backpropagation:**
-   For each layer \(l = L, L-1, ..., 1\):
+   For each layer $l = L, L-1, ..., 1$:
    1. Gradient w.r.t. weights:
       \[
       \frac{\partial \mathcal{L}}{\partial \tilde{W}_l} = \frac{1}{n} \tilde{H}_{l-1}^\top \frac{\partial \mathcal{L}}{\partial Z_l}, \quad \text{Dimensions: } \mathbb{R}^{(d_{l-1} + 1) \times d_l}.
       \]
-   2. Backpropagate to the previous layer’s activations (if \(l > 1\)):
+   2. Backpropagate to the previous layer’s activations (if $l > 1$):
       \[
       \frac{\partial \mathcal{L}}{\partial \tilde{H}_{l-1}} = \frac{\partial \mathcal{L}}{\partial Z_l} \tilde{W}_l^\top, \quad \text{Dimensions: } \mathbb{R}^{n \times (d_{l-1} + 1)}.
       \]
-   3. Drop the gradient of the bias term from \(\frac{\partial \mathcal{L}}{\partial \tilde{H}_{l-1}}\):
+   3. Drop the gradient of the bias term from $\frac{\partial \mathcal{L}}{\partial \tilde{H}_{l-1}}$:
       \[
       \frac{\partial \mathcal{L}}{\partial H_{l-1}} = \frac{\partial \mathcal{L}}{\partial \tilde{H}_{l-1}}[:, :-1], \quad \text{Dimensions: } \mathbb{R}^{n \times d_{l-1}}.
       \]
