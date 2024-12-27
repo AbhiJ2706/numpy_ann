@@ -63,8 +63,8 @@ This document provides an explanation of the matrix calculations for batch gradi
    1. Gradient w.r.t. weights:
       $\frac{\partial \mathcal{L}}{\partial \tilde{W}_l} = \frac{1}{n} \tilde{H}_{l-1}^\top \frac{\partial \mathcal{L}}{\partial Z_l}$ (Dimensions: $\mathbb{R}^{(d_{l-1} + 1) \times d_l}$)
    2. Backpropagate to the previous layer’s activations (if $l > 1$):
-      $\frac{\partial \mathcal{L}}{\partial \tilde{H}_{l-1}} = \frac{\partial \mathcal{L}}{\partial Z_l} \tilde{W}_l^\top$ *(Dimensions:  $\mathbb{R}^{n \times (d_{l-1} + 1)}$)*
+      $\frac{\partial \mathcal{L}}{\partial \tilde{H}_{l-1}} = \frac{\partial \mathcal{L}}{\partial Z_l} \tilde{W}_l^\top$ (Dimensions:  $\mathbb{R}^{n \times (d_{l-1} + 1)}$)
    3. Drop the gradient of the bias term from $\frac{\partial \mathcal{L}}{\partial \tilde{H}_{l-1}}$:
-      $\frac{\partial \mathcal{L}}{\partial H_{l-1}} = \frac{\partial \mathcal{L}}{\partial \tilde{H}_{l-1}}[:, :-1] $ *(Dimensions: $\mathbb{R}^{n \times d_{l-1}}$)*
+      $\frac{\partial \mathcal{L}}{\partial H_{l-1}} = \frac{\partial \mathcal{L}}{\partial \tilde{H}_{l-1}}[:, :-1] $ (Dimensions: $\mathbb{R}^{n \times d_{l-1}}$)
    4. Backpropagate through the activation function:
-      $\frac{\partial \mathcal{L}}{\partial Z_{l-1}} = \frac{\partial \mathcal{L}}{\partial H_{l-1}} \odot f_{l-1}'(Z_{l-1})$ *(Dimensions: $\mathbb{R}^{n \times d_{l-1}}$)*
+      $\frac{\partial \mathcal{L}}{\partial Z_{l-1}} = \frac{\partial \mathcal{L}}{\partial H_{l-1}} \odot f_{l-1}'(Z_{l-1})$ (Dimensions: $\mathbb{R}^{n \times d_{l-1}}$)
